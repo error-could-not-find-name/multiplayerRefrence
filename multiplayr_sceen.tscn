@@ -1,0 +1,103 @@
+[gd_scene load_steps=6 format=3 uid="uid://dt0beq2eoapl5"]
+
+[ext_resource type="Script" uid="uid://c38u1d3rp3o3l" path="res://multiplayr_sceen.gd" id="1_byo7q"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_c6wq7"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_b50a5"]
+sky_material = SubResource("ProceduralSkyMaterial_c6wq7")
+
+[sub_resource type="Environment" id="Environment_byo7q"]
+background_mode = 2
+sky = SubResource("Sky_b50a5")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gcge"]
+albedo_color = Color(0, 1, 0, 1)
+
+[node name="multiplayrSceen" type="Node3D"]
+script = ExtResource("1_byo7q")
+metadata/_edit_group_ = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_byo7q")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="world" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.61133, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0783081, 0, 1.55133)
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(100, 1, 100)
+material = SubResource("StandardMaterial3D_5gcge")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="mainMenu" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 414.0
+offset_top = 220.0
+offset_right = -414.0
+offset_bottom = -220.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/mainMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/mainMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="CanvasLayer/mainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "main menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="hostButton" type="Button" parent="CanvasLayer/mainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "host"
+
+[node name="oidLabel" type="Label" parent="CanvasLayer/mainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "oid = "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="copyOID" type="Button" parent="CanvasLayer/mainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "copyOID"
+
+[node name="joinButton" type="Button" parent="CanvasLayer/mainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "join
+"
+
+[node name="addresEntry" type="LineEdit" parent="CanvasLayer/mainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "nter addres her"
+alignment = 1
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://h5nl2f64n5jl", "uid://dmlipo206t55p")
+spawn_path = NodePath("..")
+
+[connection signal="pressed" from="CanvasLayer/mainMenu/MarginContainer/VBoxContainer/hostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/mainMenu/MarginContainer/VBoxContainer/copyOID" to="." method="_on_copy_oid_pressed"]
+[connection signal="pressed" from="CanvasLayer/mainMenu/MarginContainer/VBoxContainer/joinButton" to="." method="_on_join_button_pressed"]
