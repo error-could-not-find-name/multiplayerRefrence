@@ -24,6 +24,7 @@ func _on_host_button_pressed() -> void:
 	#multiplayer.multiplayer_peer = enet_peer
 	norayHoster.host()
 	multiplayer.peer_connected.connect(add_player)
+	multiplayer.peer_connected.disconnect(remove_player)
 	add_player(multiplayer.get_unique_id())
 	
 	upnp_setup()
@@ -37,7 +38,10 @@ func add_player(peer_id):
 	var playr = player.instantiate()
 	playr.name = str(peer_id)
 	add_child(playr)
-
+func remove_player(peer_id):
+	var player = get_node_or_null(str(peer_id))
+	if player:
+		player.queue_free()
 func upnp_setup():
 	pass
 	"""
