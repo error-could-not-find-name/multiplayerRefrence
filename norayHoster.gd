@@ -33,6 +33,9 @@ func join(oid):
 	exturnalOID = oid
 	
 func handle_nat_connction(address, port):
+	Noray.connect_relay(exturnalOID)
+	return OK
+	"""
 	var err = await connect_to_server(address, port)
 	if err != OK && !ishost:
 		print("nat failed, using relay")
@@ -40,6 +43,7 @@ func handle_nat_connction(address, port):
 		err = OK
 		
 	return err
+	"""
 func handle_relay_connction(address, port):
 	return await connect_to_server(address, port)
 func connect_to_server(address, port):
